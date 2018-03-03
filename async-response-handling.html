@@ -1,0 +1,73 @@
+<head>
+
+</head>
+
+<body>
+
+  <h1>Arrays in Broswer!</h1>
+
+  <div id='answers'>
+  </div>
+
+  <script type="text/javascript">
+    // const kits = [
+    //               {name: 'loki', color: 'white', age: 1},
+    //               {name: 'zorro', color: 'black', age: 5},
+    //               {name: 'thorbedine', color: 'orange', age: 1},
+    //               {name: 'alex', color: 'orange', age: 6},
+    //               {name: 'violet', color: 'black', age: 8}
+    //             ]
+    let kits = []//endpoint
+    // var kitRes;
+    let handleResponse = function() {
+      if (this.status === 200) {
+        returnKits(this.responseText)
+      }
+    }
+
+    let returnKits = function(res) {
+      var parsedKIts = JSON.parse(res)
+      var kits = parsedKIts
+      console.log({kits})
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://gist.githubusercontent.com/mikevallano/9fa04569055d2e0219ff2edfeda21665/raw/664ede9981f25bcd01bdb4a31b69bedf0327f232/test-api-endpoint.json');
+    xhr.addEventListener('load', handleResponse);
+
+    document.addEventListener('DOMContentLoaded', function(){
+      xhr.send();
+      console.log({kits})
+    })
+
+    let answers = document.getElementById('answers')
+
+    function addResultToDom(description, res) {
+      let newEl = document.createElement('h2')
+      answers.appendChild(newEl)
+      newEl.innerText = description + ': ' + res
+    }
+
+    function isKitBlack(kit) {
+      return kit.color == 'black'
+    }
+
+    let blackKits = kits.filter(isKitBlack).map(function(kit){
+      return ' ' + kit.name
+    })
+
+
+    let sortedKits = kits.sort(function(a, b){
+      return (a.name > b.name) ? 1 : -1
+    }).map(function(kit){
+      return ' ' + kit.name
+    })
+
+    addResultToDom('Sorted Kits', sortedKits)
+
+    addResultToDom('Black Kits', blackKits)
+
+
+  </script>
+
+</body>

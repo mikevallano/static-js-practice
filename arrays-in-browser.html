@@ -1,0 +1,99 @@
+<head>
+
+</head>
+
+<body>
+
+  <div style="padding: 20px;">
+    <h1>Arrays in Broswer!</h1>
+
+    <label>Select yer kits</label>
+    <select id='options-picker'>
+      <option>Select which kits you want</option>
+    </select>
+
+    <div id='answers'>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+
+    let sel = document.getElementById('options-picker')
+    let answers = document.getElementById('answers')
+
+    const kits = [
+                  {name: 'loki', color: 'white', age: 1},
+                  {name: 'zorro', color: 'black', age: 5},
+                  {name: 'thorbedine', color: 'orange', age: 1},
+                  {name: 'alex', color: 'orange', age: 6},
+                  {name: 'violet', color: 'black', age: 8}
+                ]
+
+    function addAllKitsToDom(kits) {
+      let kitEl = document.createElement('h1')
+      let kitNames = kits.map(function(kit){
+        return ' ' + kit.name
+      })
+      kitEl.innerText = 'All kits: ' + kitNames
+      answers.appendChild(kitEl)
+    }
+
+    addAllKitsToDom(kits)
+
+
+    function addResultToDom(description, res) {
+      let newEl = document.createElement('h2')
+      answers.appendChild(newEl)
+      newEl.innerText = description + ': ' + res
+    }
+
+    function isKitBlack(kit) {
+      return kit.color == 'black'
+    }
+
+    let blackKits = kits.filter(isKitBlack).map(function(kit){
+      return ' ' + kit.name
+    })
+
+    function isKitOrange(kit) {
+      return kit.color == 'orange'
+    }
+
+    let orangeKits = kits.filter(isKitOrange).map(function(kit){
+      return ' ' + kit.name
+    })
+
+
+    let sortedKits = kits.sort(function(a, b){
+      return (a.name > b.name) ? 1 : -1
+    }).map(function(kit){
+      return ' ' + kit.name
+    })
+
+    let kitOptions = [
+                      {description: 'Black Kits', result: blackKits},
+                      {description: 'Orange Kits', result: orangeKits},
+                      {description: 'Sorted Kits', result: sortedKits}
+                    ]
+
+    kitOptions.forEach(function(kitOpt) {
+      opt = document.createElement('option')
+      opt.innerText = kitOpt.description
+      sel.appendChild(opt)
+    })
+
+    sel.addEventListener('change', function(){
+      let optText = this.options[this.selectedIndex].text
+      console.log(optText)
+      let selectedOptArr = kitOptions.filter(function(opt){
+        return opt.description == optText
+      })
+      let selectedOpt = selectedOptArr[0]
+      addResultToDom(selectedOpt.description, selectedOpt.result)
+    })
+
+
+  </script>
+
+</body>

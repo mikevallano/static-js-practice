@@ -1,0 +1,52 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+
+    <title>Event Flow</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+
+    <!-- jQuery needs to load before boostrap, then custom JS -->
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"></script>
+
+    <script src="main.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+  <div class='container'>
+    <h1>Event flow: capturing, at target, bubbling</h1>
+    <div class='event-flow' id='level1'>
+      Level1
+      <div class='event-flow' id='level2'>
+        Level2
+        <div class='event-flow' id='level3'>
+          Level3
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    document.getElementById('level1').addEventListener('click', function(){
+      console.log('level1 got clicked')
+    }, true)
+    document.getElementById('level2').addEventListener('click', function(){
+      console.log('level2 got clicked')
+    })
+    document.getElementById('level3').addEventListener('click', function(e){
+      e.stopPropagation()
+      console.log('level3 got clicked')
+    })
+  </script>
+
+</body>
